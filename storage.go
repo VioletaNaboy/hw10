@@ -60,6 +60,14 @@ func (s *Storage) UpdateTask(t Task) bool {
 	return true
 }
 
+func (s *Storage) GetTaskByID(id int) (Task, bool) {
+	s.m.Lock()
+	defer s.m.Unlock()
+
+	task, ok := s.allTasks[id]
+	return task, ok
+}
+
 func (s *Storage) DeleteTaskByID(id int) bool {
 	s.m.Lock()
 	defer s.m.Unlock()

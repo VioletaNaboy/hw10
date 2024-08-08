@@ -45,6 +45,10 @@ func (t *TaskResource) GetAll(w http.ResponseWriter, r *http.Request) {
 }
 
 func (t *TaskResource) CreateOne(w http.ResponseWriter, r *http.Request) {
+	if r.Body == nil {
+		http.Error(w, "Request body is missing", http.StatusBadRequest)
+		return
+	}
 	var task Task
 
 	err := json.NewDecoder(r.Body).Decode(&task)
@@ -65,6 +69,10 @@ func (t *TaskResource) CreateOne(w http.ResponseWriter, r *http.Request) {
 }
 
 func (t *TaskResource) UpdateOne(w http.ResponseWriter, r *http.Request) {
+	if r.Body == nil {
+		http.Error(w, "Request body is missing", http.StatusBadRequest)
+		return
+	}
 	var task Task
 
 	err := json.NewDecoder(r.Body).Decode(&task)
@@ -89,6 +97,7 @@ func (t *TaskResource) UpdateOne(w http.ResponseWriter, r *http.Request) {
 }
 
 func (t *TaskResource) DeleteOne(w http.ResponseWriter, r *http.Request) {
+
 	idStr := r.URL.Query().Get("id")
 	if idStr == "" {
 		http.Error(w, "ID is required", http.StatusBadRequest)

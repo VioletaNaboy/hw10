@@ -58,6 +58,11 @@ func (t *TaskResource) CreateOne(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if task.Title == "" {
+		http.Error(w, "Task name is required", http.StatusBadRequest)
+		return
+	}
+
 	task.ID = t.s.CreateOneTask(task)
 
 	err = json.NewEncoder(w).Encode(task)
